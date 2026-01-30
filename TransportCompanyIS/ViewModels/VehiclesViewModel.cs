@@ -22,6 +22,8 @@ public class VehiclesViewModel : ViewModelBase
         {
             _selectedVehicle = value;
             OnPropertyChanged();
+            EditCommand.RaiseCanExecuteChanged();
+            DeleteCommand.RaiseCanExecuteChanged();
         }
     }
 

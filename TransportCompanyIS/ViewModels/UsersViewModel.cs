@@ -22,6 +22,8 @@ public class UsersViewModel : ViewModelBase
         {
             _selectedUser = value;
             OnPropertyChanged();
+            EditCommand.RaiseCanExecuteChanged();
+            DeleteCommand.RaiseCanExecuteChanged();
         }
     }
 

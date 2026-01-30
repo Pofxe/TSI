@@ -22,6 +22,8 @@ public class ShipmentsViewModel : ViewModelBase
         {
             _selectedShipment = value;
             OnPropertyChanged();
+            EditCommand.RaiseCanExecuteChanged();
+            DeleteCommand.RaiseCanExecuteChanged();
         }
     }
 

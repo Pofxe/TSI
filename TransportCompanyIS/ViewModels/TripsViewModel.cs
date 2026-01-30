@@ -23,6 +23,9 @@ public class TripsViewModel : ViewModelBase
         {
             _selectedTrip = value;
             OnPropertyChanged();
+            EditCommand.RaiseCanExecuteChanged();
+            DeleteCommand.RaiseCanExecuteChanged();
+            ChangeStatusCommand.RaiseCanExecuteChanged();
         }
     }
 
