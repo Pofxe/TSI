@@ -61,14 +61,17 @@ public class UsersViewModel : ViewModelBase
     private void LoadUsers()
     {
         using var context = new AppDbContext();
-        var query = context.Users.AsQueryable();
+        var users = context.Users.OrderBy(u => u.Id).ToList();
         if (!string.IsNullOrWhiteSpace(SearchText))
         {
-            query = query.Where(u => u.Login.Contains(SearchText) || u.Role.ToString().Contains(SearchText));
+            users = users.Where(u => u.Login.Contains(SearchText)
+                                     || u.Role.ToString().Contains(SearchText)
+                                     || u.RoleDisplay.Contains(SearchText))
+                .ToList();
         }
 
         Users.Clear();
-        foreach (var user in query.OrderBy(u => u.Id).ToList())
+        foreach (var user in users)
         {
             Users.Add(user);
         }
@@ -147,6 +150,12 @@ public class UsersViewModel : ViewModelBase
         var user = context.Users.FirstOrDefault(u => u.Id == SelectedUser.Id);
         if (user == null)
         {
+            return;
+        }
+
+        if (context.Trips.Any(t => t.DriverId == user.Id))
+        {
+            MessageBox.Show("Нельзя удалить пользователя, он назначен на рейсы.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
 

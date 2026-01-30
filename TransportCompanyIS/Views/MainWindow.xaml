@@ -5,16 +5,16 @@
         Title="Транспортная компания" Height="720" Width="1024" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid Background="#FFF9F9F9">
         <TabControl Margin="16">
-            <TabItem Header="Машины" Visibility="{Binding CanViewVehicles, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <TabItem Header="Машины" IsEnabled="{Binding CanAccessVehicles}">
                 <views:VehiclesPage DataContext="{Binding VehiclesViewModel}" />
             </TabItem>
-            <TabItem Header="Перевозки" Visibility="{Binding CanViewShipments, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <TabItem Header="Перевозки" IsEnabled="{Binding CanAccessShipments}">
                 <views:ShipmentsPage DataContext="{Binding ShipmentsViewModel}" />
             </TabItem>
-            <TabItem Header="Рейсы">
+            <TabItem Header="Рейсы" IsEnabled="{Binding CanAccessTrips}">
                 <views:TripsPage DataContext="{Binding TripsViewModel}" />
             </TabItem>
-            <TabItem Header="Пользователи" Visibility="{Binding IsAdministrator, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <TabItem Header="Пользователи" IsEnabled="{Binding IsAdministrator}">
                 <views:UsersPage DataContext="{Binding UsersViewModel}" />
             </TabItem>
         </TabControl>

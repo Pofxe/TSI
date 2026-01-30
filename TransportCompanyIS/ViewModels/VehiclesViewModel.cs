@@ -135,6 +135,11 @@ public class VehiclesViewModel : ViewModelBase
         }
 
         using var context = new AppDbContext();
+        if (context.Trips.Any(t => t.VehicleId == SelectedVehicle.Id))
+        {
+            MessageBox.Show("Нельзя удалить машину, она используется в рейсах.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
         context.Vehicles.Remove(SelectedVehicle);
         context.SaveChanges();
         LoadVehicles();

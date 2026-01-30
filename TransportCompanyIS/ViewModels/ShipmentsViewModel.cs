@@ -135,6 +135,11 @@ public class ShipmentsViewModel : ViewModelBase
         }
 
         using var context = new AppDbContext();
+        if (context.Trips.Any(t => t.ShipmentId == SelectedShipment.Id))
+        {
+            MessageBox.Show("Нельзя удалить перевозку, она используется в рейсах.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
         context.Shipments.Remove(SelectedShipment);
         context.SaveChanges();
         LoadShipments();

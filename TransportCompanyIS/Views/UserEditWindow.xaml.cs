@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Windows;
 using TransportCompanyIS.ViewModels;
 
@@ -36,6 +37,15 @@ public partial class UserEditWindow : Window
         {
             MessageBox.Show("Для нового пользователя требуется пароль.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
+        }
+
+        if (!string.IsNullOrWhiteSpace(viewModel.Password))
+        {
+            if (viewModel.Password.Length < 8 || !viewModel.Password.Any(char.IsLetter) || !viewModel.Password.Any(char.IsDigit))
+            {
+                MessageBox.Show("Пароль должен быть не короче 8 символов и содержать буквы и цифры.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
         }
 
         DialogResult = true;

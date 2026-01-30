@@ -12,11 +12,11 @@ public class UserEditViewModel : ViewModelBase
     public User User { get; }
     public bool IsNew { get; }
 
-    public ObservableCollection<UserRole> Roles { get; } = new()
+    public ObservableCollection<RoleOption> Roles { get; } = new()
     {
-        UserRole.Administrator,
-        UserRole.Dispatcher,
-        UserRole.Driver
+        new(UserRole.Administrator, RoleHelper.GetRoleName(UserRole.Administrator)),
+        new(UserRole.Dispatcher, RoleHelper.GetRoleName(UserRole.Dispatcher)),
+        new(UserRole.Driver, RoleHelper.GetRoleName(UserRole.Driver))
     };
 
     public string Password
@@ -44,6 +44,8 @@ public class UserEditViewModel : ViewModelBase
         User = user;
         IsNew = isNew;
     }
+
+    public record RoleOption(UserRole Role, string Name);
 
     public bool ValidatePasswords()
     {

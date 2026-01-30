@@ -20,7 +20,8 @@
 
         <TextBlock Text="Роль" Grid.Row="1" VerticalAlignment="Center" />
         <ComboBox Grid.Row="1" Grid.Column="1" Margin="8,0,0,8"
-                  ItemsSource="{Binding Roles}" SelectedItem="{Binding User.Role}" />
+                  ItemsSource="{Binding Roles}" DisplayMemberPath="Name"
+                  SelectedValuePath="Role" SelectedValue="{Binding User.Role}" />
 
         <TextBlock Text="Пароль" Grid.Row="2" VerticalAlignment="Center" />
         <PasswordBox Grid.Row="2" Grid.Column="1" Margin="8,0,0,8" x:Name="PasswordBox" />
