@@ -24,8 +24,8 @@
         </DataGrid>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
-            <Button Content="Добавить" Width="110" Margin="0,0,8,0" Command="{Binding AddCommand}" />
-            <Button Content="Редактировать" Width="130" Margin="0,0,8,0" Command="{Binding EditCommand}" />
+            <Button Content="Добавить" Width="110" Command="{Binding AddCommand}" />
+            <Button Content="Редактировать" Width="130" Command="{Binding EditCommand}" />
             <Button Content="Удалить" Width="110" Command="{Binding DeleteCommand}" />
         </StackPanel>
     </Grid>

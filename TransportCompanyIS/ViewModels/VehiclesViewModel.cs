@@ -45,8 +45,8 @@ public class VehiclesViewModel : ViewModelBase
     {
         _mainViewModel = mainViewModel;
         AddCommand = new RelayCommand(_ => AddVehicle(), _ => _mainViewModel.CanManageVehicles);
-        EditCommand = new RelayCommand(_ => EditVehicle(), _ => _mainViewModel.CanManageVehicles && SelectedVehicle != null);
-        DeleteCommand = new RelayCommand(_ => DeleteVehicle(), _ => _mainViewModel.CanManageVehicles && SelectedVehicle != null);
+        EditCommand = new RelayCommand(_ => EditVehicle(), _ => (_mainViewModel.CanManageVehicles || _mainViewModel.CanManageShipments) && SelectedVehicle != null);
+        DeleteCommand = new RelayCommand(_ => DeleteVehicle(), _ => (_mainViewModel.CanManageVehicles || _mainViewModel.CanManageShipments) && SelectedVehicle != null);
         SearchCommand = new RelayCommand(_ => LoadVehicles());
         RefreshCommand = new RelayCommand(_ =>
         {

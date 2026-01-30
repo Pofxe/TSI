@@ -9,6 +9,7 @@ public class MainViewModel : ViewModelBase
     public VehiclesViewModel VehiclesViewModel { get; }
     public ShipmentsViewModel ShipmentsViewModel { get; }
     public TripsViewModel TripsViewModel { get; }
+    public UsersViewModel UsersViewModel { get; }
 
     public bool CanViewVehicles => CurrentUser.Role != UserRole.Driver;
     public bool CanViewShipments => CurrentUser.Role != UserRole.Driver;
@@ -16,6 +17,7 @@ public class MainViewModel : ViewModelBase
     public bool CanManageShipments => CurrentUser.Role is UserRole.Administrator or UserRole.Dispatcher;
     public bool CanManageTrips => CurrentUser.Role is UserRole.Administrator or UserRole.Dispatcher;
     public bool IsDriver => CurrentUser.Role == UserRole.Driver;
+    public bool IsAdministrator => CurrentUser.Role == UserRole.Administrator;
 
     public MainViewModel(User currentUser)
     {
@@ -23,5 +25,6 @@ public class MainViewModel : ViewModelBase
         VehiclesViewModel = new VehiclesViewModel(this);
         ShipmentsViewModel = new ShipmentsViewModel(this);
         TripsViewModel = new TripsViewModel(this);
+        UsersViewModel = new UsersViewModel(this);
     }
 }

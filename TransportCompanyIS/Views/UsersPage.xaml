@@ -1,4 +1,4 @@
-<UserControl x:Class="TransportCompanyIS.Views.TripsPage"
+<UserControl x:Class="TransportCompanyIS.Views.UsersPage"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
@@ -14,22 +14,18 @@
             <Button Content="Сброс" Width="100" Height="32" Command="{Binding RefreshCommand}" />
         </StackPanel>
 
-        <DataGrid Grid.Row="1" ItemsSource="{Binding Trips}" SelectedItem="{Binding SelectedTrip}" AutoGenerateColumns="False" CanUserAddRows="False">
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" AutoGenerateColumns="False" CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50" />
-                <DataGridTextColumn Header="Откуда" Binding="{Binding Shipment.FromAddress}" Width="*" />
-                <DataGridTextColumn Header="Куда" Binding="{Binding Shipment.ToAddress}" Width="*" />
-                <DataGridTextColumn Header="Машина" Binding="{Binding Vehicle.Model}" Width="*" />
-                <DataGridTextColumn Header="Водитель" Binding="{Binding Driver.Login}" Width="120" />
-                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="*" />
+                <DataGridTextColumn Header="Логин" Binding="{Binding Login}" Width="*" />
+                <DataGridTextColumn Header="Роль" Binding="{Binding Role}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
-            <Button Content="Добавить" Width="110" Command="{Binding AddCommand}" />
-            <Button Content="Редактировать" Width="130" Command="{Binding EditCommand}" />
+            <Button Content="Добавить" Width="110" Margin="0,0,8,0" Command="{Binding AddCommand}" />
+            <Button Content="Редактировать" Width="130" Margin="0,0,8,0" Command="{Binding EditCommand}" />
             <Button Content="Удалить" Width="110" Command="{Binding DeleteCommand}" />
-            <Button Content="Изменить статус" Width="150" Command="{Binding ChangeStatusCommand}" Visibility="{Binding IsDriver, Converter={StaticResource BooleanToVisibilityConverter}}" />
         </StackPanel>
     </Grid>
 </UserControl>

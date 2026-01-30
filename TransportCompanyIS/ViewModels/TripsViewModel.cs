@@ -49,8 +49,8 @@ public class TripsViewModel : ViewModelBase
     {
         _mainViewModel = mainViewModel;
         AddCommand = new RelayCommand(_ => AddTrip(), _ => _mainViewModel.CanManageTrips);
-        EditCommand = new RelayCommand(_ => EditTrip(), _ => _mainViewModel.CanManageTrips && SelectedTrip != null);
-        DeleteCommand = new RelayCommand(_ => DeleteTrip(), _ => _mainViewModel.CanManageTrips && SelectedTrip != null);
+        EditCommand = new RelayCommand(_ => EditTrip(), _ => (_mainViewModel.CanManageTrips || _mainViewModel.CanManageShipments) && SelectedTrip != null);
+        DeleteCommand = new RelayCommand(_ => DeleteTrip(), _ => (_mainViewModel.CanManageTrips || _mainViewModel.CanManageShipments) && SelectedTrip != null);
         ChangeStatusCommand = new RelayCommand(_ => ChangeStatus(), _ => _mainViewModel.IsDriver && SelectedTrip != null);
         SearchCommand = new RelayCommand(_ => LoadTrips());
         RefreshCommand = new RelayCommand(_ =>

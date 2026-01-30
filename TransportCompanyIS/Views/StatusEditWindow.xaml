@@ -13,7 +13,7 @@
         <TextBox Grid.Row="1" Height="32" Margin="0,8,0,16" Text="{Binding StatusText, UpdateSourceTrigger=PropertyChanged}" />
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Сохранить" Width="100" Margin="0,0,8,0" Click="OnSaveClick" />
+            <Button Content="Сохранить" Width="100" Click="OnSaveClick" />
             <Button Content="Отмена" Width="90" Click="OnCancelClick" />
         </StackPanel>
     </Grid>
