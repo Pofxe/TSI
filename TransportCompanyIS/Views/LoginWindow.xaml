@@ -9,7 +9,20 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock Text="Информационная система" FontSize="22" FontWeight="SemiBold" Margin="0,0,0,12" />
+        <StackPanel Margin="0,0,0,12">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Viewbox Width="36" Height="36" Margin="0,0,12,0">
+                    <Canvas Width="24" Height="24">
+                        <Path Fill="#FF3B82F6" Data="M12,2 L21,7 V17 L12,22 L3,17 V7 Z" />
+                        <Path Fill="#FFFFFFFF" Data="M8,9 H16 V15 H8 Z" />
+                    </Canvas>
+                </Viewbox>
+                <StackPanel>
+                    <TextBlock Text="Транспортная компания" FontSize="18" FontWeight="SemiBold" />
+                    <TextBlock Text="Информационная система" FontSize="13" Foreground="#6B7280" />
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
 
         <StackPanel Grid.Row="1" Margin="0,0,0,12">
             <TextBlock Text="Логин" />
