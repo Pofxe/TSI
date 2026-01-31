@@ -1,0 +1,40 @@
+<Window x:Class="TransportCompanyIS.Views.VehicleEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        Title="Машина" Height="280" Width="360" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="110" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="Госномер" Grid.Row="0" VerticalAlignment="Center" />
+        <TextBox Grid.Row="0" Grid.Column="1" Margin="8,0,0,8" Text="{Binding PlateNumber}" />
+
+        <TextBlock Text="Модель" Grid.Row="1" VerticalAlignment="Center" />
+        <TextBox Grid.Row="1" Grid.Column="1" Margin="8,0,0,8" Text="{Binding Model}" />
+
+        <TextBlock Text="Статус" Grid.Row="2" VerticalAlignment="Center" />
+        <ComboBox Grid.Row="2" Grid.Column="1" Margin="8,0,0,8" SelectedItem="{Binding Status}">
+            <ComboBox.ItemsSource>
+                <x:Array Type="{x:Type sys:String}">
+                    <sys:String>Свободен</sys:String>
+                    <sys:String>В рейсе</sys:String>
+                    <sys:String>На обслуживании</sys:String>
+                </x:Array>
+            </ComboBox.ItemsSource>
+        </ComboBox>
+
+        <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+            <Button Content="Сохранить" Width="100" Click="OnSaveClick" />
+            <Button Content="Отмена" Width="90" Click="OnCancelClick" />
+        </StackPanel>
+    </Grid>
+</Window>
