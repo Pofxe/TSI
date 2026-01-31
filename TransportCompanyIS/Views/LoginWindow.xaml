@@ -1,0 +1,45 @@
+<Window x:Class="TransportCompanyIS.Views.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Вход" Height="380" Width="420" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Margin="0,0,0,12">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Viewbox Width="44" Height="44" Margin="0,0,12,0">
+                    <Canvas Width="64" Height="64">
+                        <Rectangle Width="40" Height="20" RadiusX="3" RadiusY="3" Fill="#FF3B82F6" Canvas.Left="6" Canvas.Top="22" />
+                        <Rectangle Width="14" Height="12" RadiusX="2" RadiusY="2" Fill="#FF1D4ED8" Canvas.Left="46" Canvas.Top="26" />
+                        <Rectangle Width="8" Height="8" Fill="#FFE5E7EB" Canvas.Left="48" Canvas.Top="28" />
+                        <Ellipse Width="10" Height="10" Fill="#111827" Canvas.Left="12" Canvas.Top="40" />
+                        <Ellipse Width="10" Height="10" Fill="#111827" Canvas.Left="36" Canvas.Top="40" />
+                        <Rectangle Width="6" Height="6" Fill="#F9FAFB" Canvas.Left="14" Canvas.Top="42" />
+                        <Rectangle Width="6" Height="6" Fill="#F9FAFB" Canvas.Left="38" Canvas.Top="42" />
+                    </Canvas>
+                </Viewbox>
+                <StackPanel>
+                    <TextBlock Text="Транспортная компания" FontSize="18" FontWeight="SemiBold" />
+                    <TextBlock Text="Информационная система" FontSize="13" Foreground="#6B7280" />
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Margin="0,0,0,12">
+            <TextBlock Text="Логин" />
+            <TextBox Height="32" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Margin="0,0,0,20">
+            <TextBlock Text="Пароль" />
+            <PasswordBox Height="32" x:Name="PasswordBox" />
+        </StackPanel>
+
+        <Button Grid.Row="3" Content="Войти" Height="36" HorizontalAlignment="Stretch"
+                Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=PasswordBox}" />
+    </Grid>
+</Window>
