@@ -22,48 +22,80 @@ public static class DbInitializer
             Role = UserRole.Administrator
         };
 
-        var dispatcher = new User
+        var users = new List<User> { admin };
+        users.AddRange(new[]
         {
-            Login = "dispatcher",
-            PasswordHash = PasswordHasher.HashPassword("dispatcher123"),
-            Role = UserRole.Dispatcher
-        };
+            new User { Login = "dispatcher1", PasswordHash = PasswordHasher.HashPassword("dispatcher123"), Role = UserRole.Dispatcher },
+            new User { Login = "dispatcher2", PasswordHash = PasswordHasher.HashPassword("dispatcher123"), Role = UserRole.Dispatcher }
+        });
 
-        var driver = new User
+        for (var i = 1; i <= 10; i++)
         {
-            Login = "driver",
-            PasswordHash = PasswordHasher.HashPassword("driver123"),
-            Role = UserRole.Driver
-        };
+            users.Add(new User
+            {
+                Login = $"driver{i}",
+                PasswordHash = PasswordHasher.HashPassword($"driver{i}123"),
+                Role = UserRole.Driver
+            });
+        }
 
-        context.Users.AddRange(admin, dispatcher, driver);
+        context.Users.AddRange(users);
 
-        var vehicles = new List<Vehicle>
+        var vehicles = new List<Vehicle>();
+        for (var i = 1; i <= 10; i++)
         {
-            new() { PlateNumber = "A123BC", Model = "Газель Next", Status = "Свободен" },
-            new() { PlateNumber = "B456CD", Model = "MAN TGS", Status = "В рейсе" },
-            new() { PlateNumber = "C789EF", Model = "Volvo FH", Status = "На обслуживании" }
-        };
+            vehicles.Add(new Vehicle
+            {
+                PlateNumber = $"A{i:000}BC",
+                Model = $"Грузовик №{i}",
+                Status = i % 3 switch
+                {
+                    0 => "На обслуживании",
+                    1 => "Свободен",
+                    _ => "В рейсе"
+                }
+            });
+        }
 
-        var shipments = new List<Shipment>
+        var shipments = new List<Shipment>();
+        for (var i = 1; i <= 20; i++)
         {
-            new() { FromAddress = "Москва, Тверская 1", ToAddress = "Санкт-Петербург, Невский 10", Status = "В пути" },
-            new() { FromAddress = "Казань, Кремль 5", ToAddress = "Самара, Ленина 12", Status = "Запланировано" }
-        };
+            shipments.Add(new Shipment
+            {
+                FromAddress = $"Город отправки {i}",
+                ToAddress = $"Город доставки {i}",
+                Status = i % 3 switch
+                {
+                    0 => "Доставлено",
+                    1 => "Запланировано",
+                    _ => "В пути"
+                }
+            });
+        }
 
         context.Vehicles.AddRange(vehicles);
         context.Shipments.AddRange(shipments);
         context.SaveChanges();
 
-        var trip = new Trip
+        var drivers = users.Where(u => u.Role == UserRole.Driver).ToList();
+        var trips = new List<Trip>();
+        for (var i = 0; i < 10; i++)
         {
-            ShipmentId = shipments[0].Id,
-            VehicleId = vehicles[1].Id,
-            DriverId = driver.Id,
-            Status = "В пути"
-        };
+            trips.Add(new Trip
+            {
+                ShipmentId = shipments[i].Id,
+                VehicleId = vehicles[i].Id,
+                DriverId = drivers[i].Id,
+                Status = i % 3 switch
+                {
+                    0 => "Завершен",
+                    1 => "Запланирован",
+                    _ => "В пути"
+                }
+            });
+        }
 
-        context.Trips.Add(trip);
+        context.Trips.AddRange(trips);
         context.SaveChanges();
     }
 }

@@ -1,7 +1,7 @@
 <Window x:Class="TransportCompanyIS.Views.TripEditWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:sys="clr-namespace:System;assembly=System.Runtime"
         Title="Рейс" Height="360" Width="420" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
     <Grid Margin="20">
         <Grid.RowDefinitions>

@@ -1,7 +1,7 @@
 <Window x:Class="TransportCompanyIS.Views.LoginWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Вход" Height="320" Width="360" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Вход" Height="380" Width="420" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid Margin="24">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -11,10 +11,15 @@
         </Grid.RowDefinitions>
         <StackPanel Margin="0,0,0,12">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <Viewbox Width="36" Height="36" Margin="0,0,12,0">
-                    <Canvas Width="24" Height="24">
-                        <Path Fill="#FF3B82F6" Data="M12,2 L21,7 V17 L12,22 L3,17 V7 Z" />
-                        <Path Fill="#FFFFFFFF" Data="M8,9 H16 V15 H8 Z" />
+                <Viewbox Width="44" Height="44" Margin="0,0,12,0">
+                    <Canvas Width="64" Height="64">
+                        <Rectangle Width="40" Height="20" RadiusX="3" RadiusY="3" Fill="#FF3B82F6" Canvas.Left="6" Canvas.Top="22" />
+                        <Rectangle Width="14" Height="12" RadiusX="2" RadiusY="2" Fill="#FF1D4ED8" Canvas.Left="46" Canvas.Top="26" />
+                        <Rectangle Width="8" Height="8" Fill="#FFE5E7EB" Canvas.Left="48" Canvas.Top="28" />
+                        <Ellipse Width="10" Height="10" Fill="#111827" Canvas.Left="12" Canvas.Top="40" />
+                        <Ellipse Width="10" Height="10" Fill="#111827" Canvas.Left="36" Canvas.Top="40" />
+                        <Rectangle Width="6" Height="6" Fill="#F9FAFB" Canvas.Left="14" Canvas.Top="42" />
+                        <Rectangle Width="6" Height="6" Fill="#F9FAFB" Canvas.Left="38" Canvas.Top="42" />
                     </Canvas>
                 </Viewbox>
                 <StackPanel>
