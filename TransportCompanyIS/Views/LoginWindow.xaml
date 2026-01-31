@@ -11,17 +11,9 @@
         </Grid.RowDefinitions>
         <StackPanel Margin="0,0,0,12">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <Viewbox Width="44" Height="44" Margin="0,0,12,0">
-                    <Canvas Width="64" Height="64">
-                        <Rectangle Width="40" Height="20" RadiusX="3" RadiusY="3" Fill="#FF3B82F6" Canvas.Left="6" Canvas.Top="22" />
-                        <Rectangle Width="14" Height="12" RadiusX="2" RadiusY="2" Fill="#FF1D4ED8" Canvas.Left="46" Canvas.Top="26" />
-                        <Rectangle Width="8" Height="8" Fill="#FFE5E7EB" Canvas.Left="48" Canvas.Top="28" />
-                        <Ellipse Width="10" Height="10" Fill="#111827" Canvas.Left="12" Canvas.Top="40" />
-                        <Ellipse Width="10" Height="10" Fill="#111827" Canvas.Left="36" Canvas.Top="40" />
-                        <Rectangle Width="6" Height="6" Fill="#F9FAFB" Canvas.Left="14" Canvas.Top="42" />
-                        <Rectangle Width="6" Height="6" Fill="#F9FAFB" Canvas.Left="38" Canvas.Top="42" />
-                    </Canvas>
-                </Viewbox>
+                <Border Width="44" Height="44" CornerRadius="8" Background="#EEF2FF" Margin="0,0,12,0">
+                    <Image Source="/Assets/logo.png" Stretch="Uniform" />
+                </Border>
                 <StackPanel>
                     <TextBlock Text="Транспортная компания" FontSize="18" FontWeight="SemiBold" />
                     <TextBlock Text="Информационная система" FontSize="13" Foreground="#6B7280" />

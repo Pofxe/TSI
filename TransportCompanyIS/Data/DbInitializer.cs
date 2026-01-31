@@ -10,11 +10,6 @@ public static class DbInitializer
         using var context = new AppDbContext();
         context.Database.EnsureCreated();
 
-        if (context.Users.Any())
-        {
-            return;
-        }
-
         var admin = new User
         {
             Login = "admin",
@@ -39,7 +34,8 @@ public static class DbInitializer
             });
         }
 
-        context.Users.AddRange(users);
+        var existingUsers = context.Users.Select(u => u.Login).ToHashSet();
+        context.Users.AddRange(users.Where(u => !existingUsers.Contains(u.Login)));
 
         var vehicles = new List<Vehicle>();
         for (var i = 1; i <= 10; i++)
@@ -73,19 +69,32 @@ public static class DbInitializer
             });
         }
 
-        context.Vehicles.AddRange(vehicles);
-        context.Shipments.AddRange(shipments);
+        var existingVehicles = context.Vehicles.Select(v => v.PlateNumber).ToHashSet();
+        var existingShipments = context.Shipments.Select(s => s.FromAddress).ToHashSet();
+        context.Vehicles.AddRange(vehicles.Where(v => !existingVehicles.Contains(v.PlateNumber)));
+        context.Shipments.AddRange(shipments.Where(s => !existingShipments.Contains(s.FromAddress)));
         context.SaveChanges();
 
-        var drivers = users.Where(u => u.Role == UserRole.Driver).ToList();
+        var drivers = context.Users.Where(u => u.Role == UserRole.Driver).OrderBy(u => u.Id).ToList();
+        var currentVehicles = context.Vehicles.OrderBy(v => v.Id).ToList();
+        var currentShipments = context.Shipments.OrderBy(s => s.Id).ToList();
+        var existingTripPairs = context.Trips.Select(t => new { t.ShipmentId, t.VehicleId, t.DriverId }).ToList();
         var trips = new List<Trip>();
-        for (var i = 0; i < 10; i++)
+        for (var i = 0; i < 10 && i < drivers.Count && i < currentVehicles.Count && i < currentShipments.Count; i++)
         {
+            var shipmentId = currentShipments[i].Id;
+            var vehicleId = currentVehicles[i].Id;
+            var driverId = drivers[i].Id;
+            if (existingTripPairs.Any(t => t.ShipmentId == shipmentId && t.VehicleId == vehicleId && t.DriverId == driverId))
+            {
+                continue;
+            }
+
             trips.Add(new Trip
             {
-                ShipmentId = shipments[i].Id,
-                VehicleId = vehicles[i].Id,
-                DriverId = drivers[i].Id,
+                ShipmentId = shipmentId,
+                VehicleId = vehicleId,
+                DriverId = driverId,
                 Status = i % 3 switch
                 {
                     0 => "Завершен",
