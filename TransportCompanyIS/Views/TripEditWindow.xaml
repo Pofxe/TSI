@@ -28,7 +28,7 @@
 
         <TextBlock Text="Водитель" Grid.Row="2" VerticalAlignment="Center" />
         <ComboBox Grid.Row="2" Grid.Column="1" Margin="8,0,0,8"
-                  ItemsSource="{Binding Drivers}" DisplayMemberPath="Login"
+                  ItemsSource="{Binding Drivers}" DisplayMemberPath="FullName"
                   SelectedValuePath="Id" SelectedValue="{Binding Trip.DriverId}" />
 
         <TextBlock Text="Статус" Grid.Row="3" VerticalAlignment="Center" />

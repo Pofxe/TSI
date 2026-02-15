@@ -25,6 +25,8 @@ public static class DbInitializer
         try
         {
             context.Database.ExecuteSqlRaw("SELECT Description, AssignedVehicleId FROM Shipments LIMIT 1;");
+            context.Database.ExecuteSqlRaw("SELECT FullName, PhoneNumber, DriverStatus FROM Users LIMIT 1;");
+            context.Database.ExecuteSqlRaw("SELECT DriverId FROM Vehicles LIMIT 1;");
         }
         catch
         {
@@ -36,9 +38,15 @@ public static class DbInitializer
     {
         var users = new List<User>
         {
-            new() { Login = "admin", PasswordHash = PasswordHasher.HashPassword("admin123"), Role = UserRole.Administrator },
-            new() { Login = "dispatcher1", PasswordHash = PasswordHasher.HashPassword("dispatcher123"), Role = UserRole.Dispatcher },
-            new() { Login = "dispatcher2", PasswordHash = PasswordHasher.HashPassword("dispatcher123"), Role = UserRole.Dispatcher }
+            new() { Login = "admin", PasswordHash = PasswordHasher.HashPassword("admin123"), Role = UserRole.Administrator, FullName = "Администратор Системы" },
+            new() { Login = "dispatcher1", PasswordHash = PasswordHasher.HashPassword("dispatcher123"), Role = UserRole.Dispatcher, FullName = "Соколова Анна Викторовна" },
+            new() { Login = "dispatcher2", PasswordHash = PasswordHasher.HashPassword("dispatcher123"), Role = UserRole.Dispatcher, FullName = "Миронов Илья Сергеевич" }
+        };
+
+        var driverNames = new[]
+        {
+            "Иванов Сергей Петрович", "Кузнецов Артем Игоревич", "Смирнов Павел Андреевич", "Орлов Денис Максимович", "Федоров Роман Алексеевич",
+            "Егоров Никита Олегович", "Васильев Кирилл Дмитриевич", "Попов Михаил Юрьевич", "Зайцев Виталий Константинович", "Тарасов Иван Евгеньевич"
         };
 
         for (var i = 1; i <= 10; i++)
@@ -47,7 +55,10 @@ public static class DbInitializer
             {
                 Login = $"driver{i}",
                 PasswordHash = PasswordHasher.HashPassword($"driver{i}123"),
-                Role = UserRole.Driver
+                Role = UserRole.Driver,
+                FullName = driverNames[i - 1],
+                PhoneNumber = $"+7 (900) 100-{i:00}-{(i + 10):00}",
+                DriverStatus = i % 3 == 0 ? "Выходной" : i % 2 == 0 ? "В рейсе" : "Свободен"
             });
         }
 
@@ -58,18 +69,19 @@ public static class DbInitializer
 
     private static void SeedVehicles(AppDbContext context)
     {
+        var drivers = context.Users.Where(u => u.Role == UserRole.Driver).OrderBy(u => u.Id).ToList();
         var fleet = new List<Vehicle>
         {
-            new() { PlateNumber = "A451BC", Model = "Mercedes-Benz Actros", Status = "Свободен" },
-            new() { PlateNumber = "B229KM", Model = "Volvo FH16", Status = "В рейсе" },
-            new() { PlateNumber = "C103OP", Model = "Scania R450", Status = "Свободен" },
-            new() { PlateNumber = "E845TX", Model = "DAF XF", Status = "На обслуживании" },
-            new() { PlateNumber = "H515AA", Model = "MAN TGX", Status = "В рейсе" },
-            new() { PlateNumber = "K700MP", Model = "Iveco S-Way", Status = "Свободен" },
-            new() { PlateNumber = "M318BT", Model = "КамАЗ 54901", Status = "Свободен" },
-            new() { PlateNumber = "O912CT", Model = "Renault T High", Status = "На обслуживании" },
-            new() { PlateNumber = "P640EK", Model = "Газон Next", Status = "В рейсе" },
-            new() { PlateNumber = "T773PO", Model = "Isuzu Forward", Status = "Свободен" }
+            new() { PlateNumber = "A451BC", Model = "Mercedes-Benz Actros", Status = "Свободен", DriverId = drivers.ElementAtOrDefault(0)?.Id },
+            new() { PlateNumber = "B229KM", Model = "Volvo FH16", Status = "В рейсе", DriverId = drivers.ElementAtOrDefault(1)?.Id },
+            new() { PlateNumber = "C103OP", Model = "Scania R450", Status = "Свободен", DriverId = drivers.ElementAtOrDefault(2)?.Id },
+            new() { PlateNumber = "E845TX", Model = "DAF XF", Status = "На обслуживании", DriverId = drivers.ElementAtOrDefault(3)?.Id },
+            new() { PlateNumber = "H515AA", Model = "MAN TGX", Status = "В рейсе", DriverId = drivers.ElementAtOrDefault(4)?.Id },
+            new() { PlateNumber = "K700MP", Model = "Iveco S-Way", Status = "Свободен", DriverId = drivers.ElementAtOrDefault(5)?.Id },
+            new() { PlateNumber = "M318BT", Model = "КамАЗ 54901", Status = "Свободен", DriverId = drivers.ElementAtOrDefault(6)?.Id },
+            new() { PlateNumber = "O912CT", Model = "Renault T High", Status = "На обслуживании", DriverId = drivers.ElementAtOrDefault(7)?.Id },
+            new() { PlateNumber = "P640EK", Model = "Газон Next", Status = "В рейсе", DriverId = drivers.ElementAtOrDefault(8)?.Id },
+            new() { PlateNumber = "T773PO", Model = "Isuzu Forward", Status = "Свободен", DriverId = drivers.ElementAtOrDefault(9)?.Id }
         };
 
         var existingPlates = context.Vehicles.Select(v => v.PlateNumber).ToHashSet();

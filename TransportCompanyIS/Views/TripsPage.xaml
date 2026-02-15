@@ -8,11 +8,14 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
-            <TextBox Width="240" Height="32" Margin="0,0,8,0" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
-            <Button Content="Поиск" Width="100" Height="32" Margin="0,0,8,0" Command="{Binding SearchCommand}" />
+        <WrapPanel Margin="0,0,0,12">
+            <TextBox Width="220" Height="32" Margin="0,0,8,0" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
+            <ComboBox Width="170" Height="32" Margin="0,0,8,0" ItemsSource="{Binding StatusFilters}" SelectedItem="{Binding SelectedStatus}" />
+            <ComboBox Width="220" Height="32" Margin="0,0,8,0" ItemsSource="{Binding DriverFilters}" DisplayMemberPath="DisplayName"
+                      SelectedValuePath="Id" SelectedValue="{Binding SelectedDriverId}" />
+            <Button Content="Фильтровать" Width="120" Height="32" Margin="0,0,8,0" Command="{Binding SearchCommand}" />
             <Button Content="Сброс" Width="100" Height="32" Command="{Binding RefreshCommand}" />
-        </StackPanel>
+        </WrapPanel>
 
         <DataGrid Grid.Row="1" ItemsSource="{Binding Trips}" SelectedItem="{Binding SelectedTrip}" AutoGenerateColumns="False" CanUserAddRows="False">
             <DataGrid.Columns>
@@ -20,7 +23,7 @@
                 <DataGridTextColumn Header="Откуда" Binding="{Binding Shipment.FromAddress}" Width="*" />
                 <DataGridTextColumn Header="Куда" Binding="{Binding Shipment.ToAddress}" Width="*" />
                 <DataGridTextColumn Header="Машина" Binding="{Binding Vehicle.Model}" Width="*" />
-                <DataGridTextColumn Header="Водитель" Binding="{Binding Driver.Login}" Width="120" />
+                <DataGridTextColumn Header="Водитель" Binding="{Binding Driver.DriverShortName}" Width="150" />
                 <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>

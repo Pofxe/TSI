@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Windows;
+using Microsoft.EntityFrameworkCore;
 using TransportCompanyIS.Data;
 using TransportCompanyIS.Models;
 using TransportCompanyIS.Utils;
@@ -74,7 +75,9 @@ public class VehiclesViewModel : ViewModelBase
     private void LoadVehicles()
     {
         using var context = new AppDbContext();
-        var query = context.Vehicles.AsQueryable();
+        var query = context.Vehicles
+            .Include(v => v.Driver)
+            .AsQueryable();
         if (!string.IsNullOrWhiteSpace(SearchText))
         {
             query = query.Where(v => v.PlateNumber.Contains(SearchText) || v.Model.Contains(SearchText));

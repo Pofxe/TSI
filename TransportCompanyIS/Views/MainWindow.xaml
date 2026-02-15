@@ -14,6 +14,9 @@
             <TabItem Header="Рейсы" IsEnabled="{Binding CanAccessTrips}">
                 <views:TripsPage DataContext="{Binding TripsViewModel}" />
             </TabItem>
+            <TabItem Header="Водители" IsEnabled="{Binding CanAccessShipments}">
+                <views:DriversPage DataContext="{Binding DriversViewModel}" />
+            </TabItem>
             <TabItem Header="Пользователи" IsEnabled="{Binding IsAdministrator}">
                 <views:UsersPage DataContext="{Binding UsersViewModel}" />
             </TabItem>

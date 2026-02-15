@@ -23,6 +23,12 @@ public class AppDbContext : DbContext
             .HasForeignKey(shipment => shipment.AssignedVehicleId)
             .OnDelete(DeleteBehavior.SetNull);
 
+        modelBuilder.Entity<Vehicle>()
+            .HasOne(vehicle => vehicle.Driver)
+            .WithMany()
+            .HasForeignKey(vehicle => vehicle.DriverId)
+            .OnDelete(DeleteBehavior.SetNull);
+
         modelBuilder.Entity<Trip>()
             .HasOne(trip => trip.Shipment)
             .WithMany()

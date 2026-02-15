@@ -13,8 +13,12 @@ public class TripsViewModel : ViewModelBase
     private readonly MainViewModel _mainViewModel;
     private Trip? _selectedTrip;
     private string _searchText = string.Empty;
+    private string _selectedStatus = "Все";
+    private int _selectedDriverId;
 
     public ObservableCollection<Trip> Trips { get; } = new();
+    public ObservableCollection<string> StatusFilters { get; } = new() { "Все", "Запланирован", "В пути", "Завершен" };
+    public ObservableCollection<DriverOption> DriverFilters { get; } = new();
 
     public Trip? SelectedTrip
     {
@@ -39,6 +43,26 @@ public class TripsViewModel : ViewModelBase
         }
     }
 
+    public string SelectedStatus
+    {
+        get => _selectedStatus;
+        set
+        {
+            _selectedStatus = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public int SelectedDriverId
+    {
+        get => _selectedDriverId;
+        set
+        {
+            _selectedDriverId = value;
+            OnPropertyChanged();
+        }
+    }
+
     public RelayCommand AddCommand { get; }
     public RelayCommand EditCommand { get; }
     public RelayCommand DeleteCommand { get; }
@@ -59,9 +83,24 @@ public class TripsViewModel : ViewModelBase
         RefreshCommand = new RelayCommand(_ =>
         {
             SearchText = string.Empty;
+            SelectedStatus = "Все";
+            SelectedDriverId = 0;
             LoadTrips();
         });
+
+        LoadDriverFilters();
         LoadTrips();
+    }
+
+    private void LoadDriverFilters()
+    {
+        using var context = new AppDbContext();
+        DriverFilters.Clear();
+        DriverFilters.Add(new DriverOption(0, "Все водители"));
+        foreach (var driver in context.Users.Where(u => u.Role == UserRole.Driver).OrderBy(u => u.FullName).ToList())
+        {
+            DriverFilters.Add(new DriverOption(driver.Id, driver.DriverShortName));
+        }
     }
 
     private void LoadTrips()
@@ -82,7 +121,18 @@ public class TripsViewModel : ViewModelBase
         {
             query = query.Where(t => t.Status.Contains(SearchText)
                                      || (t.Shipment != null && (t.Shipment.FromAddress.Contains(SearchText) || t.Shipment.ToAddress.Contains(SearchText)))
-                                     || (t.Vehicle != null && t.Vehicle.Model.Contains(SearchText)));
+                                     || (t.Vehicle != null && t.Vehicle.Model.Contains(SearchText))
+                                     || (t.Driver != null && t.Driver.FullName.Contains(SearchText)));
+        }
+
+        if (SelectedStatus != "Все")
+        {
+            query = query.Where(t => t.Status == SelectedStatus);
+        }
+
+        if (SelectedDriverId != 0)
+        {
+            query = query.Where(t => t.DriverId == SelectedDriverId);
         }
 
         Trips.Clear();
@@ -106,6 +156,7 @@ public class TripsViewModel : ViewModelBase
             using var context = new AppDbContext();
             context.Trips.Add(viewModel.Trip);
             context.SaveChanges();
+            LoadDriverFilters();
             LoadTrips();
         }
     }
@@ -155,7 +206,13 @@ public class TripsViewModel : ViewModelBase
         }
 
         using var context = new AppDbContext();
-        context.Trips.Remove(SelectedTrip);
+        var trip = context.Trips.FirstOrDefault(t => t.Id == SelectedTrip.Id);
+        if (trip == null)
+        {
+            return;
+        }
+
+        context.Trips.Remove(trip);
         context.SaveChanges();
         LoadTrips();
     }
@@ -188,4 +245,6 @@ public class TripsViewModel : ViewModelBase
             LoadTrips();
         }
     }
+
+    public record DriverOption(int Id, string DisplayName);
 }

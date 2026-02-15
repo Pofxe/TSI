@@ -10,6 +10,7 @@ public class MainViewModel : ViewModelBase
     public ShipmentsViewModel ShipmentsViewModel { get; }
     public TripsViewModel TripsViewModel { get; }
     public UsersViewModel UsersViewModel { get; }
+    public DriversViewModel DriversViewModel { get; }
 
     public bool CanAccessVehicles => CurrentUser.Role != UserRole.Driver;
     public bool CanAccessShipments => CurrentUser.Role != UserRole.Driver;
@@ -27,5 +28,6 @@ public class MainViewModel : ViewModelBase
         ShipmentsViewModel = new ShipmentsViewModel(this);
         TripsViewModel = new TripsViewModel(this);
         UsersViewModel = new UsersViewModel(this);
+        DriversViewModel = new DriversViewModel(this);
     }
 }
