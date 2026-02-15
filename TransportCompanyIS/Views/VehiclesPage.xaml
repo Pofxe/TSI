@@ -8,11 +8,12 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
-            <TextBox Width="240" Height="32" Margin="0,0,8,0" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
-            <Button Content="Поиск" Width="100" Height="32" Margin="0,0,8,0" Command="{Binding SearchCommand}" />
+        <WrapPanel Margin="0,0,0,12">
+            <TextBox Width="220" Height="32" Margin="0,0,8,0" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
+            <ComboBox Width="190" Height="32" Margin="0,0,8,0" ItemsSource="{Binding StatusFilters}" SelectedItem="{Binding SelectedStatus}" />
+            <Button Content="Фильтровать" Width="120" Height="32" Margin="0,0,8,0" Command="{Binding SearchCommand}" />
             <Button Content="Сброс" Width="100" Height="32" Command="{Binding RefreshCommand}" />
-        </StackPanel>
+        </WrapPanel>
 
         <DataGrid Grid.Row="1" ItemsSource="{Binding Vehicles}" SelectedItem="{Binding SelectedVehicle}" AutoGenerateColumns="False" CanUserAddRows="False">
             <DataGrid.Columns>

@@ -12,8 +12,10 @@ public class VehiclesViewModel : ViewModelBase
     private readonly MainViewModel _mainViewModel;
     private Vehicle? _selectedVehicle;
     private string _searchText = string.Empty;
+    private string _selectedStatus = "Все";
 
     public ObservableCollection<Vehicle> Vehicles { get; } = new();
+    public ObservableCollection<string> StatusFilters { get; } = new() { "Все", "Свободен", "В рейсе", "На обслуживании" };
 
     public Vehicle? SelectedVehicle
     {
@@ -37,6 +39,16 @@ public class VehiclesViewModel : ViewModelBase
         }
     }
 
+    public string SelectedStatus
+    {
+        get => _selectedStatus;
+        set
+        {
+            _selectedStatus = value;
+            OnPropertyChanged();
+        }
+    }
+
     public RelayCommand AddCommand { get; }
     public RelayCommand EditCommand { get; }
     public RelayCommand DeleteCommand { get; }
@@ -53,6 +65,7 @@ public class VehiclesViewModel : ViewModelBase
         RefreshCommand = new RelayCommand(_ =>
         {
             SearchText = string.Empty;
+            SelectedStatus = "Все";
             LoadVehicles();
         });
         LoadVehicles();
@@ -65,6 +78,11 @@ public class VehiclesViewModel : ViewModelBase
         if (!string.IsNullOrWhiteSpace(SearchText))
         {
             query = query.Where(v => v.PlateNumber.Contains(SearchText) || v.Model.Contains(SearchText));
+        }
+
+        if (SelectedStatus != "Все")
+        {
+            query = query.Where(v => v.Status == SelectedStatus);
         }
 
         Vehicles.Clear();
@@ -135,12 +153,20 @@ public class VehiclesViewModel : ViewModelBase
         }
 
         using var context = new AppDbContext();
-        if (context.Trips.Any(t => t.VehicleId == SelectedVehicle.Id))
+        if (context.Trips.Any(t => t.VehicleId == SelectedVehicle.Id)
+            || context.Shipments.Any(s => s.AssignedVehicleId == SelectedVehicle.Id))
         {
-            MessageBox.Show("Нельзя удалить машину, она используется в рейсах.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBox.Show("Нельзя удалить машину, она используется в рейсах или заказах.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
-        context.Vehicles.Remove(SelectedVehicle);
+
+        var vehicle = context.Vehicles.FirstOrDefault(v => v.Id == SelectedVehicle.Id);
+        if (vehicle == null)
+        {
+            return;
+        }
+
+        context.Vehicles.Remove(vehicle);
         context.SaveChanges();
         LoadVehicles();
     }

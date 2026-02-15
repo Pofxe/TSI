@@ -3,9 +3,9 @@ using TransportCompanyIS.ViewModels;
 
 namespace TransportCompanyIS.Views;
 
-public partial class ShipmentEditWindow : Window
+public partial class OrderCreateWindow : Window
 {
-    public ShipmentEditWindow()
+    public OrderCreateWindow()
     {
         InitializeComponent();
     }

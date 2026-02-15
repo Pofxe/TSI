@@ -8,23 +8,29 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
-            <TextBox Width="240" Height="32" Margin="0,0,8,0" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
-            <Button Content="Поиск" Width="100" Height="32" Margin="0,0,8,0" Command="{Binding SearchCommand}" />
+        <WrapPanel Margin="0,0,0,12">
+            <TextBox Width="220" Height="32" Margin="0,0,8,0" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
+            <ComboBox Width="170" Height="32" Margin="0,0,8,0" ItemsSource="{Binding StatusFilters}" SelectedItem="{Binding SelectedStatus}" />
+            <ComboBox Width="240" Height="32" Margin="0,0,8,0" ItemsSource="{Binding VehicleFilters}" DisplayMemberPath="DisplayName"
+                      SelectedValuePath="Id" SelectedValue="{Binding SelectedVehicleId}" />
+            <Button Content="Фильтровать" Width="120" Height="32" Margin="0,0,8,0" Command="{Binding SearchCommand}" />
             <Button Content="Сброс" Width="100" Height="32" Command="{Binding RefreshCommand}" />
-        </StackPanel>
+        </WrapPanel>
 
         <DataGrid Grid.Row="1" ItemsSource="{Binding Shipments}" SelectedItem="{Binding SelectedShipment}" AutoGenerateColumns="False" CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50" />
-                <DataGridTextColumn Header="Откуда" Binding="{Binding FromAddress}" Width="*" />
-                <DataGridTextColumn Header="Куда" Binding="{Binding ToAddress}" Width="*" />
+                <DataGridTextColumn Header="Откуда" Binding="{Binding FromAddress}" Width="1.4*" />
+                <DataGridTextColumn Header="Куда" Binding="{Binding ToAddress}" Width="1.4*" />
+                <DataGridTextColumn Header="Автомобиль" Binding="{Binding VehicleDisplay}" Width="1.4*" />
                 <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="*" />
+                <DataGridTextColumn Header="Описание" Binding="{Binding Description}" Width="1.8*" />
             </DataGrid.Columns>
         </DataGrid>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
             <Button Content="Добавить" Width="110" Command="{Binding AddCommand}" />
+            <Button Content="Оформить заказ" Width="150" Command="{Binding CreateOrderCommand}" />
             <Button Content="Редактировать" Width="130" Command="{Binding EditCommand}" />
             <Button Content="Удалить" Width="110" Command="{Binding DeleteCommand}" />
         </StackPanel>

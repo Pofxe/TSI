@@ -17,6 +17,12 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Shipment>()
+            .HasOne(shipment => shipment.AssignedVehicle)
+            .WithMany()
+            .HasForeignKey(shipment => shipment.AssignedVehicleId)
+            .OnDelete(DeleteBehavior.SetNull);
+
         modelBuilder.Entity<Trip>()
             .HasOne(trip => trip.Shipment)
             .WithMany()
